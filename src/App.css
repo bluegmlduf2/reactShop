@@ -28,6 +28,14 @@
   color: #61dafb;
 }
 
+/* 다른 src 폴더 등의 파일들은 리액트 앱을 발행했을 때 저절로 압축이 되는데
+public 폴더는 리액트 앱을 발행했을 때 사이트 루트경로에 그대로 남아있습니다
+그래서 / 이렇게 경로를 입력해도 잘 먹습니다. */
+.background{
+  background-image: url("./background.jpg");
+  background-position: center;
+  color: white;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
