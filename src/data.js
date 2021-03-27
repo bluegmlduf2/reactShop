@@ -1,3 +1,4 @@
+/*eslint-disable*/
 //export default 변수한개만가능
 export default [
     {

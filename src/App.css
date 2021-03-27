@@ -36,11 +36,3 @@ public 폴더는 리액트 앱을 발행했을 때 사이트 루트경로에 그
   background-position: center;
   color: white;
 }
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
