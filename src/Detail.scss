@@ -1,0 +1,57 @@
+// scss파일. node-sass가 자동으로 컴파일해준다 
+// @import './_reset.css' //reset파일은 _를 붙여주고 컴파일을 피함.
+
+//1.변수를 사용가능 
+$fontColor:powderblue;
+
+//2..nesting 문법 (셀렉터 관리가 쉬움 ..굳)
+div.container{
+    h4{
+        color:$fontColor;
+        font-weight: 400;
+    }
+    p{
+        font-family: monospace;
+    }
+}
+
+@mixin myAlert3 {
+    background-color: #ed8e8e80;
+    padding: 15px;
+    border-radius: 5px;
+    max-width: 500px; /*500px에서 더이상 커지지않음*/
+    margin: auto; /*가운데정렬*/   
+}
+
+.my-alert{
+    background-color: #eeeeee;
+    padding: 15px;
+    border-radius: 5px;
+    max-width: 500px; /*500px에서 더이상 커지지않음*/
+    margin: auto; /*가운데정렬*/
+    // width: 100%;
+}
+
+// 3.상속해서 사용가능
+.my-alert1{
+    @extend .my-alert;
+}
+
+// 3.상속해서 사용가능
+.my-alert2{
+    @extend .my-alert;
+    background-color:#f2f225c8;
+}
+
+// 4.함수로 정의해서 사용가능
+.my-alert3{
+    @include myAlert3()
+}
+
+// 5. for문 , if문을 사용가능함
+// my-alert 1,2,3 에 적용
+@for $i from 1 to 4{
+    .my-alert#{$i} p{
+        margin-bottom: 0;
+    }
+}
