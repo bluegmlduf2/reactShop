@@ -17,8 +17,9 @@ function App() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
             {/* href대신에 리액트의 Link태그를 사용한다 */}
-            <Nav.Link><Link to="/">Home</Link></Nav.Link>
-            <Nav.Link><Link to="/detail">Detail</Link></Nav.Link>
+            <Nav.Link as={Link} to="/">Home</Nav.Link>
+            <Nav.Link as={Link} to="/detail">Detail</Nav.Link>
+            {/* <Nav.Link><Link to="/detail">Detail</Link></Nav.Link> 해당줄은 a태그안에 a태그를 사용하였다는 warning메세지 발생함 위와같이 수정요망 */}
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
