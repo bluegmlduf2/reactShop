@@ -9,6 +9,7 @@ import {BrowserRouter} from 'react-router-dom';//1.리액트 라우터 초기설
 
 ReactDOM.render(
   <React.StrictMode>
+    {/* 라우터 사용을 위해서 BrowserRouter태그를 사용 */}
     <BrowserRouter>
       <App />
     </BrowserRouter>

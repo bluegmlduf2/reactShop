@@ -5,6 +5,7 @@ import { Navbar, Nav, NavDropdown, Button, Jumbotron } from 'react-bootstrap';
 import shoeDataArr from './data.js';
 import Detail from './Detail.js'; // 디테일 컴포넌트
 import { Route, Link, Switch } from 'react-router-dom' /* 라우터 초기 설정 */
+import axios from 'axios' //AJAX
 
 function App() {
   let [shoeInfo, shoeInfoUpd] = useState(shoeDataArr)
@@ -55,6 +56,32 @@ function App() {
               })}
             </div>
           </div>
+          <button className="btn btn-primary mt-3" onClick={() => {
+              // Ajax는 1. jQuery Ajax를 쓰든가, 2. axios 설치해서 쓰든가, 3. 쌩자바스크립트 fetch()를 쓰든가 
+              //AXIOS를 사용하면 좋은점 : JSON을 자동으로 객체로 바꿔줌. JSON.parse()를 사용할 필요가 없음
+              //json데이터가 키에 "key"가 있으면 아직 변환전 json문자열이다
+              axios.get('https://codingapple1.github.io/shop/data2.json')
+              .then((result)=>{
+                console.log(result.data)
+                let returnArr=result.data
+                let returnArr_deepCp=[...shoeInfo]//DeepCopy
+                let inputArr=returnArr_deepCp.concat(returnArr)
+
+                shoeInfoUpd(inputArr)
+
+                //한줄로 표현 
+                //ex arr1=[{1}.{2}] arr2=[{3}]  -> ...가 중괄호를 벗김 ->[{1}.{2}.{3}]이 된다
+                //[...arr1,...arr2]
+              })
+              .catch((e)=>{
+                console.error(e)
+              })
+
+              // 값보내기
+              // axios.post('https://codingapple1.github.io/shop/data2.json', { id : 'test', pw : 1234})
+              // .then((result)=>{  })
+              // .catch(()=>{ })
+          }}>더보기</button>
         </Route>
 
         <Route path="/detail/:id">
