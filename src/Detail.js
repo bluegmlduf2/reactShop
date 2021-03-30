@@ -1,6 +1,6 @@
 /*eslint-disable*/
 //1.컴포넌트 js파일은 파일명 첫글자가 대문자이다 2.컴포넌트사용을위해 리액트라이브러리를 임포트
-import {react,useEffect, useState} from 'react';
+import {react,useEffect, useState} from 'react'; // let {}  = react() ..ES6의 신문법 Rest과 같다. 반환값중에 필요한 값만 변수로 선언하여 사용한다
 import {useHistory,useParams} from 'react-router-dom'//1.페이지이동을위한 리액트 라우터 라이브러리 2.useParams 파라미터의 변수를 가져오기 위한 라이브러리
 import styled from 'styled-components'; //1.styled-components 의 선언
 import './Detail.scss'
@@ -50,6 +50,12 @@ function Detail(props) {
     color:${props=>props.userColor}
     `
 
+    function changestock() {
+        let deepCopy=[...props.stock_prop]
+        deepCopy[id]=parseInt(props.stock_prop[id])+1
+        props.stockUpd_prop(deepCopy)
+    }
+
     return (
         // 부트스트랩 레이아웃기본, 1.container > 2.row 3.mt은 마진탑 
         <div className="container">
@@ -71,7 +77,8 @@ function Detail(props) {
                     <h4 className="pt-5">{props.detail_prop[id].title}</h4>
                     <p>{props.detail_prop[id].content}</p>
                     <p>{props.detail_prop[id].price}원</p>
-                    <button className="btn btn-danger">주문하기</button>
+                    <Stock stock_prop={props.stock_prop[id]} stockUpd_prop={props.stockUpd_prop}/>
+                    <button className="btn btn-danger" onClick={changestock}>주문하기</button>
                     <button className="btn btn-danger ml-2" onClick={()=>{
                         history.goBack()//뒤로가기
                         //history.push('/')//해당 url로이동
@@ -80,6 +87,12 @@ function Detail(props) {
             </div>
         </div>
     );
+}
+
+function Stock(props) {
+    return (
+        <p>재고 : {props.stock_prop}</p>
+    );    
 }
 
 // HOOK -> Trriger

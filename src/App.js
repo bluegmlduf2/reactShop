@@ -8,7 +8,8 @@ import { Route, Link, Switch } from 'react-router-dom' /* 라우터 초기 설�
 import axios from 'axios' //AJAX
 
 function App() {
-  let [shoeInfo, shoeInfoUpd] = useState(shoeDataArr)
+  let [shoeInfo, shoeInfoUpd] = useState(shoeDataArr) //신발 정보
+  let [stockInfo, stockUpd] = useState([1,4,5,6,10,2]) //재고 정보
 
   return (
     <div className="App">
@@ -62,6 +63,7 @@ function App() {
               //json데이터가 키에 "key"가 있으면 아직 변환전 json문자열이다
               axios.get('https://codingapple1.github.io/shop/data2.json')
               .then((result)=>{
+                //console.log(...[1, 2, 3]) // 1, 2, 3   ES6의 신문법 Spread문법(...) // ...[벗길값] , ...{벗길값}
                 console.log(result.data)
                 let returnArr=result.data
                 let returnArr_deepCp=[...shoeInfo]//DeepCopy
@@ -86,7 +88,7 @@ function App() {
 
         <Route path="/detail/:id">
           {/* 1.url에 파라미터를 같이 넘기는 형식 */}
-          <Detail detail_prop={shoeInfo} />
+          <Detail detail_prop={shoeInfo} stock_prop={stockInfo} stockUpd_prop={stockUpd}/>
         </Route>
       </Switch>
     </div>
@@ -96,12 +98,14 @@ function App() {
 function ShoeItems(props) {
   return (
     <div className="col-md-4">
+      <Link to={"/detail/"+props.shoeIndex}>
       {/*1.md => 모바일사이즈  2.width="100%"가 없으면 기본이미지 사이즈로 적용됨 */}
       {/* 문자열 안에 변수넣는법 {"a"+b+"c"} */}
       <img src={"https://codingapple1.github.io/shop/shoes" + ((props.shoeIndex) + 1) + ".jpg"} width="100%" alt="상품1" />
       <h4>{props.shoeInfoProp.title}</h4>
       <p>{props.shoeInfoProp.content}</p>
       <p>{props.shoeInfoProp.price}</p>
+      </Link>
     </div>
   );
 }
