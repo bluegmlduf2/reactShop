@@ -1,9 +1,10 @@
 /*eslint-disable*/
 //1.컴포넌트 js파일은 파일명 첫글자가 대문자이다 2.컴포넌트사용을위해 리액트라이브러리를 임포트
-import {react,useEffect, useState} from 'react'; // let {}  = react() ..ES6의 신문법 Rest과 같다. 반환값중에 필요한 값만 변수로 선언하여 사용한다
+import {react,useEffect, useState,useContext} from 'react'; // let {}  = react() ..ES6의 신문법 Rest과 같다. 반환값중에 필요한 값만 변수로 선언하여 사용한다
 import {useHistory,useParams} from 'react-router-dom'//1.페이지이동을위한 리액트 라우터 라이브러리 2.useParams 파라미터의 변수를 가져오기 위한 라이브러리
 import styled from 'styled-components'; //1.styled-components 의 선언
 import './Detail.scss'
+import {sizeContext} from './App.js'//sizeContext 사용하기위해서 
 
 function Detail(props) {
     let history = useHistory();//페이지이동라우터 초기화
@@ -78,6 +79,7 @@ function Detail(props) {
                     <p>{props.detail_prop[id].content}</p>
                     <p>{props.detail_prop[id].price}원</p>
                     <Stock stock_prop={props.stock_prop[id]} stockUpd_prop={props.stockUpd_prop}/>
+                    <Size></Size>
                     <button className="btn btn-danger" onClick={changestock}>주문하기</button>
                     <button className="btn btn-danger ml-2" onClick={()=>{
                         history.goBack()//뒤로가기
@@ -93,6 +95,15 @@ function Stock(props) {
     return (
         <p>재고 : {props.stock_prop}</p>
     );    
+}
+
+function Size(params) {
+    let sizeInfo=useContext(sizeContext)
+    let {id}=useParams();//{:파라미터..}
+
+    return  (
+        <p>사이즈 : {sizeInfo[id].join(',')}</p>
+    );
 }
 
 // HOOK -> Trriger

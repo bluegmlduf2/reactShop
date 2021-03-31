@@ -7,9 +7,14 @@ import Detail from './Detail.js'; // 디테일 컴포넌트
 import { Route, Link, Switch } from 'react-router-dom' /* 라우터 초기 설정 */
 import axios from 'axios' //AJAX
 
+//1.context사용선언(전역변수와비슷)
+//2.detail.js에서 import해서 사용하기때문에 export해주기
+export let sizeContext=react.createContext()
+
 function App() {
   let [shoeInfo, shoeInfoUpd] = useState(shoeDataArr) //신발 정보
   let [stockInfo, stockUpd] = useState([1,4,5,6,10,2]) //재고 정보
+  let [sizeInfo, sizeUpd] = useState([['260','265'],['free'],['free'],['240','245'],['free'],['free']]) //사이즈 정보
 
   return (
     <div className="App">
@@ -87,8 +92,11 @@ function App() {
         </Route>
 
         <Route path="/detail/:id">
-          {/* 1.url에 파라미터를 같이 넘기는 형식 */}
-          <Detail detail_prop={shoeInfo} stock_prop={stockInfo} stockUpd_prop={stockUpd}/>
+          {/* context사용범위선언 */}
+          <sizeContext.Provider value={sizeInfo}>
+            {/* 1.url에 파라미터를 같이 넘기는 형식 */}
+            <Detail detail_prop={shoeInfo} stock_prop={stockInfo} stockUpd_prop={stockUpd}/>
+          </sizeContext.Provider>
         </Route>
       </Switch>
     </div>
