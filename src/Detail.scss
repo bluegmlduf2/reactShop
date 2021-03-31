@@ -55,3 +55,12 @@ div.container{
         margin-bottom: 0;
     }
 }
+
+.showAni-enter {
+    opacity : 0
+}
+  
+.showAni-enter-active {
+    opacity : 1;
+    transition : all 1000ms;
+}
