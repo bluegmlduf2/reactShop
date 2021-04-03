@@ -1,9 +1,10 @@
 /*eslint-disable*/
-import react, { useState } from 'react';
+import react, { useState } from 'react'; // import 일반(export default된거),{변수,함수} from X 
 import './App.css';
 import { Navbar, Nav, NavDropdown, Button, Jumbotron } from 'react-bootstrap';
 import shoeDataArr from './data.js';
 import Detail from './Detail.js'; // 디테일 컴포넌트
+import Cart from './Cart.js'; // 카트 컴포넌트
 import { Route, Link, Switch } from 'react-router-dom' /* 라우터 초기 설정 */
 import axios from 'axios' //AJAX
 
@@ -98,6 +99,11 @@ function App() {
             <Detail detail_prop={shoeInfo} stock_prop={stockInfo} stockUpd_prop={stockUpd}/>
           </sizeContext.Provider>
         </Route>
+
+        <Route path="/cart">
+          <Cart></Cart>
+        </Route>
+
       </Switch>
     </div>
   );
