@@ -12,7 +12,7 @@ import { BrowserRouter } from 'react-router-dom';//1.리액트 라우터 초기�
 // 리덕스 사용 이유 : 상태관리를 위함 => 큰프로젝트의 스테이트정보의 수정용이
 // 리덕스 환경설정 
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { combineReducers, createStore } from 'redux'
 
 //리덕스로 공유할 값선언
 let initState = [
@@ -42,8 +42,23 @@ function reducer(state = initState, action) {
   }
 }
 
+
+//리덕스로 공유할 값선언
+let alertState = true
+
+//리덕스의 값 수정 방법을 정의 (해당 함수는 state를 반환해야함)
+function alertReducer(state = alertState, action) {
+  if (action.type==="closeAlert"){
+    return false
+  }else{
+    return state
+  }
+}
+
+
 //리덕스로 사용할 값 생성
-let store = createStore(reducer)
+let store = createStore(combineReducers({reducer,alertReducer}))
+// let store = createStore(reducer)//전달값 1개인 경우
 
 ReactDOM.render(
   <React.StrictMode>

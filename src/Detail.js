@@ -95,10 +95,10 @@ function Detail(props) {
 
             <Nav variant="tabs" defaultActiveKey="link-1" className="mt-5">
                 <Nav.Item>
-                    <Nav.Link eventKey="link-1" onClick={()=>{tabBtnUpd(1);tabAniUpd(false)}}>Option 1</Nav.Link>
+                    <Nav.Link eventKey="link-1" onClick={()=>{tabBtnUpd(1);tabAniUpd(false)}}>상품설명</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link eventKey="link-2" onClick={()=>{tabBtnUpd(2);tabAniUpd(false)}}>Option 2</Nav.Link>
+                    <Nav.Link eventKey="link-2" onClick={()=>{tabBtnUpd(2);tabAniUpd(false)}}>배송정보</Nav.Link>
                 </Nav.Item>
             </Nav>
             {/* in={true} => 실행 */}
