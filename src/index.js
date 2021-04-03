@@ -16,30 +16,69 @@ import { combineReducers, createStore } from 'redux'
 
 //리덕스로 공유할 값선언
 let initState = [
-  { id: 1, name: "sinbal1", color: "red", quantity: 4 },
-  { id: 2, name: "sinbal2", color: "red", quantity: 5 },
-  { id: 3, name: "sinbal3", color: "red", quantity: 6 },
-  { id: 4, name: "sinbal4", color: "red", quantity: 7 }
+  { id: 1, title: "sinbal1", color: "red", quantity: 4 },
+  { id: 2, title: "sinbal2", color: "red", quantity: 5 },
+  { id: 3, title: "sinbal3", color: "red", quantity: 6 },
+  { id: 4, title: "sinbal4", color: "red", quantity: 7 }
 ]
 
 //리덕스의 값 수정 방법을 정의 (해당 함수는 state를 반환해야함)
 function reducer(state = initState, action) {
   if (action.type === "addCartCnt") {
     //카트에 수량을 더하기
-    let copy=[...state]
-    copy[0].quantity++
+    let copy = [...state]
+    copy.forEach((e) => {
+      debugger
+      if (e.id == action.payload) {
+        e.quantity++
+      }
+    })
+
     return copy
   } else if (action.type === "minusCartCnt") {
     //카트에 수량을 제외하기
-    let copy=[...state]
+    let copy = [...state]
     //1개이상 수량 제거 가능
-    if(Math.sign(copy[0].quantity)===1&&copy[0].quantity>1){
-      copy[0].quantity--
-    }
+    copy.forEach((e) => {
+      if (Math.sign(e.quantity) === 1 && e.quantity > 1 && e.id == action.payload) {
+        e.quantity--
+      }
+    })
+
     return copy
+  } else if (action.type === "addCart") {
+    //주문정보를 카트에 추가
+    // let orderData=action.payload
+    // let copy = [...state]
+    // copy.push(orderData)
+    let findData = findSameData(state, action)
+
+    //신규 추가
+    if (findData == undefined) {
+      action.payload.quantity = 1
+      state.push(action.payload)
+    } else {
+      //기존 추가
+      findData.quantity++
+    }
+
+    return state
   } else {
     return state
   }
+}
+
+//find함수를 이용해서 객체내에서 일치하는 값을 반환함 
+function findSameData(state, action) {
+  //주문한 값
+  let orderData = action.payload
+
+  //이미 카트에 값이 존재할 경우
+  let findData = state.find((e) => {
+    return orderData.id == e.id
+  });
+
+  return findData
 }
 
 
@@ -48,16 +87,15 @@ let alertState = true
 
 //리덕스의 값 수정 방법을 정의 (해당 함수는 state를 반환해야함)
 function alertReducer(state = alertState, action) {
-  if (action.type==="closeAlert"){
+  if (action.type === "closeAlert") {
     return false
-  }else{
+  } else {
     return state
   }
 }
 
-
 //리덕스로 사용할 값 생성
-let store = createStore(combineReducers({reducer,alertReducer}))
+let store = createStore(combineReducers({ reducer, alertReducer }))
 // let store = createStore(reducer)//전달값 1개인 경우
 
 ReactDOM.render(

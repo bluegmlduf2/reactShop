@@ -22,12 +22,12 @@ function Cart(props) {
                         return (
                             <tr key={i}>
                                 <td>{e.id}</td>
-                                <td>{e.name}</td>
+                                <td>{e.title}</td>
                                 <td>{e.quantity}</td>
                                 <td>{e.color}</td>
                                 {/* dispatch :보내다 (리덕스의 값을 수정할때 사용) 파라미터=>액션 */}
-                                <td><button className="btn" onClick={() => { props.dispatch({ type: 'addCartCnt' }) }}>+</button></td>
-                                <td><button className="btn" onClick={() => { props.dispatch({ type: 'minusCartCnt' }) }}>-</button></td>
+                                <td style={{textAlign:"right"}}><button className="btn" onClick={() => { props.dispatch({ type: 'addCartCnt',payload:e.id }) }}>+</button></td>
+                                <td style={{textAlign:"left"}}><button className="btn" onClick={() => { props.dispatch({ type: 'minusCartCnt',payload:e.id }) }}>-</button></td>
                             </tr>
                         )
                     })}

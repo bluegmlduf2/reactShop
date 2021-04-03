@@ -6,8 +6,8 @@ import styled from 'styled-components'; //1.styled-components 의 선언
 import './Detail.scss'
 import { sizeContext } from './App.js'//sizeContext 사용하기위해서 
 import { Nav } from 'react-bootstrap';
-import {CSSTransition} from 'react-transition-group';
-
+import { CSSTransition } from 'react-transition-group';
+import { connect } from 'react-redux';
 
 function Detail(props) {
     let history = useHistory();//페이지이동라우터 초기화
@@ -85,7 +85,11 @@ function Detail(props) {
                     <p>{props.detail_prop[id].price}원</p>
                     <Stock stock_prop={props.stock_prop[id]} stockUpd_prop={props.stockUpd_prop} />
                     <Size></Size>
-                    <button className="btn btn-danger" onClick={changestock}>주문하기</button>
+                    {/* <button className="btn btn-danger" onClick={changestock}>주문하기</button> */}
+                    <button className="btn btn-danger" onClick={() => {
+                        props.dispatch({ type: "addCart", payload: props.detail_prop[id] });
+                        history.push('/cart')
+                    }}>주문하기</button>
                     <button className="btn btn-danger ml-2" onClick={() => {
                         history.goBack()//뒤로가기
                         //history.push('/')//해당 url로이동
@@ -95,15 +99,15 @@ function Detail(props) {
 
             <Nav variant="tabs" defaultActiveKey="link-1" className="mt-5">
                 <Nav.Item>
-                    <Nav.Link eventKey="link-1" onClick={()=>{tabBtnUpd(1);tabAniUpd(false)}}>상품설명</Nav.Link>
+                    <Nav.Link eventKey="link-1" onClick={() => { tabBtnUpd(1); tabAniUpd(false) }}>상품설명</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link eventKey="link-2" onClick={()=>{tabBtnUpd(2);tabAniUpd(false)}}>배송정보</Nav.Link>
+                    <Nav.Link eventKey="link-2" onClick={() => { tabBtnUpd(2); tabAniUpd(false) }}>배송정보</Nav.Link>
                 </Nav.Item>
             </Nav>
             {/* in={true} => 실행 */}
             <CSSTransition in={tabAni} classNames="showAni" timeout={500}>
-                <Tabs tabBtn_prop={tabBtn} tabAniUpd_prop={tabAniUpd}/>
+                <Tabs tabBtn_prop={tabBtn} tabAniUpd_prop={tabAniUpd} />
             </CSSTransition>
         </div>
     );
@@ -125,15 +129,15 @@ function Size(params) {
 }
 
 function Tabs(props) {
-    let tabBtn=props.tabBtn_prop
-    let tabAniUpd=props.tabAniUpd_prop
+    let tabBtn = props.tabBtn_prop
+    let tabAniUpd = props.tabAniUpd_prop
 
     //클릭시마다 호출 (애니메이션)
-    useEffect(()=>{tabAniUpd(true)})
+    useEffect(() => { tabAniUpd(true) })
 
-    if (tabBtn===1) {
+    if (tabBtn === 1) {
         return (<div>첫번째 내용</div>)
-    } else if(tabBtn===2) {
+    } else if (tabBtn === 2) {
         return (<div>두번째 내용</div>)
     }
 }
@@ -146,4 +150,13 @@ function Tabs(props) {
 //       //Detail2 컴포넌트가 Unmount 되기전에 실행할 코드
 //     }
 //   }
-export default Detail
+
+function reduxStateToProps(state) {
+    //index.js에서 설정한 store(state)통채로 가져와서 Cart(props)함수의 props로 던짐 
+    return {
+        state: state.reducer
+    }
+}
+
+
+export default connect(reduxStateToProps)(Detail)// A()()는 A의반환값이 함수인경우임.
