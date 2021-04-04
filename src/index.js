@@ -15,12 +15,14 @@ import { Provider } from 'react-redux'
 import { combineReducers, createStore } from 'redux'
 
 //리덕스로 공유할 값선언
-let initState = [
-  { id: 1, title: "sinbal1", color: "red", quantity: 4 },
-  { id: 2, title: "sinbal2", color: "red", quantity: 5 },
-  { id: 3, title: "sinbal3", color: "red", quantity: 6 },
-  { id: 4, title: "sinbal4", color: "red", quantity: 7 }
-]
+// let initState = [
+//   { id: 1, title: "sinbal1", color: "red", quantity: 4 },
+//   { id: 2, title: "sinbal2", color: "red", quantity: 5 },
+//   { id: 3, title: "sinbal3", color: "red", quantity: 6 },
+//   { id: 4, title: "sinbal4", color: "red", quantity: 7 }
+// ]
+let initState = []
+
 
 //리덕스의 값 수정 방법을 정의 (해당 함수는 state를 반환해야함)
 function reducer(state = initState, action) {
@@ -28,7 +30,6 @@ function reducer(state = initState, action) {
     //카트에 수량을 더하기
     let copy = [...state]
     copy.forEach((e) => {
-      debugger
       if (e.id == action.payload) {
         e.quantity++
       }
@@ -73,7 +74,7 @@ function findSameData(state, action) {
   //주문한 값
   let orderData = action.payload
 
-  //이미 카트에 값이 존재할 경우
+  //이미 카트에 값이 존재할 경우 (find함수,findIndex함수 둘다 사용 가능)
   let findData = state.find((e) => {
     return orderData.id == e.id
   });

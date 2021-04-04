@@ -22,6 +22,7 @@ function Detail(props) {
      */
 
     let timer = null
+    let localObj=[]
 
     //HOOK 신문법. 1.컴포넌트가 등장(마운트)될때 & 재렌더링때 사용됨  //주로 AJAX통신을 넣기도함
     useEffect(() => {
@@ -47,6 +48,14 @@ function Detail(props) {
         console.log(1)
     }, [])
 
+    useEffect(()=>{
+        let obj=localStorage.getItem('obj')
+        localObj=obj==!null?[]:JSON.parse(obj)
+        // debugger
+        // let jsonArr=JSON.stringify([])
+        // localStorage.setItem('obj',jsonArr);
+    })
+
     /* styled-components를 사용하면 생기는 이점 1.CSS파일을 찾을 필요가 없다*/
     let 박스 = styled.div`
     padding:20px;
@@ -55,6 +64,8 @@ function Detail(props) {
     font-size: 25px;
     color:${props => props.userColor}
     `
+    
+    let fontStyle={fontSize:"15px",color:"skyblue"}
 
     function changestock() {
         let deepCopy = [...props.stock_prop]
@@ -76,10 +87,10 @@ function Detail(props) {
                 <p>재고가 얼마 남지 않았습니다</p>
             </div>
             <div className="row">
-                <div className="col-md-6">
+                <div className="col-md-5">
                     <img src={"https://codingapple1.github.io/shop/shoes" + (parseInt(id) + 1) + ".jpg"} width="100%" />
                 </div>
-                <div className="col-md-6 mt-4">
+                <div className="col-md-5 mt-4">
                     <h4 className="pt-5">{props.detail_prop[id].title}</h4>
                     <p>{props.detail_prop[id].content}</p>
                     <p>{props.detail_prop[id].price}원</p>
@@ -94,6 +105,14 @@ function Detail(props) {
                         history.goBack()//뒤로가기
                         //history.push('/')//해당 url로이동
                     }}>뒤로가기</button>
+                </div>
+                <div className="col-md-2">
+
+                    <div style={fontStyle}>최근에 본 상품</div>
+                    {localObj.map((e,i)=>{
+                        debugger
+                        return (<div ><img width="100%" src={"https://codingapple1.github.io/shop/shoes"+e.id+".jpg"} alt=""/></div>);
+                    })}
                 </div>
             </div>
 

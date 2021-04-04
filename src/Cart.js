@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import react from 'react'; // import 일반(export default된거),{변수,함수} from X 
+import react ,{memo}from 'react'; // import 일반(export default된거),{변수,함수} from X 
 import { Table, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 

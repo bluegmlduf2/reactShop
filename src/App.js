@@ -1,12 +1,18 @@
 /*eslint-disable*/
-import react, { useState } from 'react'; // import 일반(export default된거),{변수,함수} from X 
+import react, { useState,lazy,Suspense } from 'react'; // import 일반(export default된거),{변수,함수} from X 
 import './App.css';
 import { Navbar, Nav, NavDropdown, Button, Jumbotron } from 'react-bootstrap';
 import shoeDataArr from './data.js';
-import Detail from './Detail.js'; // 디테일 컴포넌트
-import Cart from './Cart.js'; // 카트 컴포넌트
 import { Route, Link, Switch } from 'react-router-dom' /* 라우터 초기 설정 */
 import axios from 'axios' //AJAX
+
+// import Detail from './Detail.js'; // 디테일 컴포넌트
+// import Cart from './Cart.js'; // 카트 컴포넌트
+// 레이지로딩(성능을 위해서 해당 JS를 사용할때만 임폴트함)
+let Detail= lazy(()=>{ return import('./Detail.js')})
+let Cart= lazy(()=>{ return import('./Cart.js')})
+
+
 
 //1.context사용선언(전역변수와비슷)
 //2.detail.js에서 import해서 사용하기때문에 export해주기
@@ -96,12 +102,16 @@ function App() {
           {/* context사용범위선언 */}
           <sizeContext.Provider value={sizeInfo}>
             {/* 1.url에 파라미터를 같이 넘기는 형식 */}
-            <Detail detail_prop={shoeInfo} stock_prop={stockInfo} stockUpd_prop={stockUpd}/>
+            <Suspense fallback={<div style={{marginTop:"10%"}}>로딩중입니다..</div>}>  
+              <Detail detail_prop={shoeInfo} stock_prop={stockInfo} stockUpd_prop={stockUpd}/>
+            </Suspense>
           </sizeContext.Provider>
         </Route>
 
         <Route path="/cart">
-          <Cart></Cart>
+          <Suspense fallback={<div style={{marginTop:"10%"}}>로딩중입니다..</div>}>  
+            <Cart></Cart>
+          </Suspense>
         </Route>
 
       </Switch>
