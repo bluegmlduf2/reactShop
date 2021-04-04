@@ -22,7 +22,6 @@ function Detail(props) {
      */
 
     let timer = null
-    let localObj=[]
 
     //HOOK 신문법. 1.컴포넌트가 등장(마운트)될때 & 재렌더링때 사용됨  //주로 AJAX통신을 넣기도함
     useEffect(() => {
@@ -49,12 +48,22 @@ function Detail(props) {
     }, [])
 
     useEffect(()=>{
-        let obj=localStorage.getItem('obj')
-        localObj=obj==!null?[]:JSON.parse(obj)
-        // debugger
-        // let jsonArr=JSON.stringify([])
-        // localStorage.setItem('obj',jsonArr);
-    })
+        let arr=localStorage.getItem('obj')
+
+        if(arr===null){
+        //기존에 없으면 새롭게 추가
+            arr=[]
+        }else{
+        //기존에 있으면 해당 값 가져옴
+            arr=JSON.parse(arr)
+        }
+
+        arr.unshift(id)
+        arr=new Set(arr)//배열->셋 변환하면서 중복값제거
+        arr=[...arr] //셋->배열 다시 변환
+        let param=JSON.stringify(arr)
+        localStorage.setItem("obj",param)
+    },[])
 
     /* styled-components를 사용하면 생기는 이점 1.CSS파일을 찾을 필요가 없다*/
     let 박스 = styled.div`
@@ -109,10 +118,18 @@ function Detail(props) {
                 <div className="col-md-2">
 
                     <div style={fontStyle}>최근에 본 상품</div>
-                    {localObj.map((e,i)=>{
-                        debugger
-                        return (<div ><img width="100%" src={"https://codingapple1.github.io/shop/shoes"+e.id+".jpg"} alt=""/></div>);
-                    })}
+                    {
+                        localStorage.getItem('obj')!==null?
+                        (JSON.parse(localStorage.getItem('obj')).map((e,i)=>{
+                            if(i>=3)return false;
+                            return (<div ><img width="100%" src={"https://codingapple1.github.io/shop/shoes"+(parseInt(e)+1)+".jpg"} alt=""/></div>);
+                        })):null
+
+                    
+                    // aa.map((e,i)=>{
+                    //     return (<div ><img width="100%" src={"https://codingapple1.github.io/shop/shoes"+e.id+".jpg"} alt=""/></div>);
+                    // })
+                    }
                 </div>
             </div>
 
