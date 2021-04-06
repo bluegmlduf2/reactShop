@@ -102,7 +102,8 @@ let store = createStore(combineReducers({ reducer, alertReducer }))
 ReactDOM.render(
   <React.StrictMode>
     {/* 라우터 사용을 위해서 BrowserRouter태그를 사용 */}
-    <BrowserRouter>
+    {/* 라우터의 ROOT URL과 package.json의 homepage를 맞춰준다 */}
+    <BrowserRouter basename="/reactShop">
       {/* 1.Redux의 셋팅 (감싸진 애들은 props없이 state사용 가능)*/}
       <Provider store={store}>
         <App />
